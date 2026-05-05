@@ -4,7 +4,28 @@ import { Router } from "express";
 const router = Router();
 
 // creo un arreglo de tareas
-let tasks = [];
+let tasks = [
+  {
+    id: 1,
+    title: "Challenge ForIt",
+    completed: true,
+  },
+  {
+    id: 2,
+    title: "Debo crear tareas",
+    completed: true,
+  },
+  {
+    id: 3,
+    title: "LLevar al dentista a mi herman",
+    completed: false,
+  },
+  {
+    id: 4,
+    title: "Estudiar para bases de datos",
+    completed: false,
+  },
+];
 
 //=========== CREO RUTA GET =================
 router.get("/", (req, res) => {
