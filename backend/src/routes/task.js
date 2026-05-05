@@ -3,29 +3,52 @@ import { Router } from "express";
 // creo un router
 const router = Router();
 
-// creo un arreglo de tareas
+// creo un arreglo mock de tareas
 let tasks = [
   {
-    id: 1,
-    title: "Challenge ForIt",
-    completed: true,
+    id: crypto.randomUUID(),
+    title: "Entrega Proyecto Final",
+    description: "Subir el repositorio de React a la plataforma de la facultad.",
+    complete: false,
+    createAt: new Date()
   },
   {
-    id: 2,
-    title: "Debo crear tareas",
-    completed: true,
+    id: crypto.randomUUID(),
+    title: "Comprar víveres",
+    description: "Leche, huevos, frutas y café para la semana.",
+    complete: true,
+    createAt: new Date()
   },
   {
-    id: 3,
-    title: "LLevar al dentista a mi herman",
-    completed: false,
+    id: crypto.randomUUID(),
+    title: "Estudiar para Álgebra",
+    description: "Repasar matrices y sistemas de ecuaciones lineales.",
+    complete: false,
+    createAt: new Date()
   },
   {
-    id: 4,
-    title: "Estudiar para bases de datos",
-    completed: false,
+    id: crypto.randomUUID(),
+    title: "Gimnasio",
+    description: "Entrenamiento de pierna y 20 min de cardio.",
+    complete: false,
+    createAt: new Date()
   },
+  {
+    id: crypto.randomUUID(),
+    title: "Resumen de Historia",
+    description: "Leer los capítulos 3 y 4 del libro de texto.",
+    complete: true,
+    createAt: new Date()
+  },
+  {
+    id: crypto.randomUUID(),
+    title: "Lavar la ropa",
+    description: "Separar la ropa blanca y poner la lavadora.",
+    complete: false,
+    createAt: new Date()
+  }
 ];
+
 
 //=========== CREO RUTA GET =================
 router.get("/", (req, res) => {
@@ -47,7 +70,9 @@ router.post("/", (req, res) => {
     const newTask = {
       id: crypto.randomUUID(),
       title: req.body.title,
+      description: req.body.description,
       complete: false,
+      createAt: new Date()
     };
     // agrego la tarea a mi arreglo de tareas
     tasks.push(newTask);

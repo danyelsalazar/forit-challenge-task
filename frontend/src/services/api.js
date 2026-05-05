@@ -45,3 +45,21 @@ export const deleteTask = async (id) => {
         
     }
 };
+
+// ========== EDITAR TAREA UPDATE ==============
+export const  updateTask = async (id, taskUpdate) =>{
+    try {
+        const res = await fetch(`${API_URL}/${id}`, {
+            method: "PUT",
+            headers: {
+            "Content-Type": "application/json"
+            },
+            body: JSON.stringify(taskUpdate)
+        })
+
+        if(!res.ok) throw new Error("No se logro encontrar la tarea")
+    } catch (error) {
+        console.log("Error en el updateTasks:", error);
+        
+    }
+}
