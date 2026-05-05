@@ -34,7 +34,7 @@ const handleAddTask = async (task)=>{
     <div>
       <h2>Task List</h2>
       <TaskForm onAddTask={handleAddTask} />
-      <TaskList tasks={tasks}/>
+      <TaskList tasks={tasks} setTasks={setTasks}/>
     </div>
   )
 }
