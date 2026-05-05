@@ -52,10 +52,7 @@ router.post("/", (req, res) => {
     // agrego la tarea a mi arreglo de tareas
     tasks.push(newTask);
 
-    res.status(201).json({
-      message: "Tarea cargada",
-      task: newTask,
-    });
+    res.status(201).json(newTask);
   } catch (error) {
     // en caso de rrors de servidor lo atrapo con el catch
     res.status(500).json({
