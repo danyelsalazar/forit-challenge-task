@@ -27,7 +27,7 @@ const handleAddTask = async (task)=>{
   // creo la nueva tarea y se la envio a la api
   const newTask = await postTask(task)
   // actualizo el arrefglo de tareas
-  setTasks([...tasks, newTask])
+  setTasks((prev)=> [...prev, newTask])
 }
 
   return (
