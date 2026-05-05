@@ -1,60 +1,106 @@
-import {Router} from "express"
+import { Router } from "express";
 
 // creo un router
-const router = Router()
+const router = Router();
 
-
-// creo un arreglo de tareas 
+// creo un arreglo de tareas
 let tasks = [];
 
-// creo la ruta GET
+//=========== CREO RUTA GET =================
 router.get("/", (req, res) => {
-    // muestro las tareas
-    res.json(tasks)
-})
+  // muestro las tareas
+  res.json(tasks);
+});
 
-// creo una ruta para POST 
-router.post("/", (req, res)=>{
+//========== CREO RUTA POST ====================
+router.post("/", (req, res) => {
+  try {
+    const { title } = req.body;
+
+    if (!title) {
+      return res.status(400).json({
+        error: "title is required",
+      });
+    }
     // creo una nueva tarea con la info recibida
     const newTask = {
-        id: crypto.randomUUID(),
-        title: req.body.title,
-        complete: false
+      id: crypto.randomUUID(),
+      title: req.body.title,
+      complete: false,
     };
+    // agrego la tarea a mi arreglo de tareas
+    tasks.push(newTask);
 
-    tasks.push(newTask)
     res.status(201).json({
-        message: "Tarea cargada",
-        task: newTask
-    })
-})
+      message: "Tarea cargada",
+      task: newTask,
+    });
+  } catch (error) {
+    // en caso de rrors de servidor lo atrapo con el catch
+    res.status(500).json({
+      error: "internal error server",
+    });
+  }
+});
 
-// creo la ruta para para PUT
-router.put("/:id", (req,res)=>{
-    const {id} = req.params;
+// ============ CREO RUTA PUT ================
+router.put("/:id", (req, res) => {
+  try {
+    const { id } = req.params;
 
-    tasks = tasks.map(task => 
-        task.id == id ? {...task, ...req.body} : task
-    )
+    // verifico si existe la tarea
+    const existTask = taskExist(id)
+
+    // si no existe informo
+    if (!existTask) {
+      return res.status(404).json({
+        error: "Task not exist",
+      });
+    }
+
+    // si existe continuo y la modifico
+    tasks = tasks.map((task) =>
+      task.id == id ? { ...task, ...req.body } : task,
+    );
 
     res.json({
-        message: "Task update",
-        idTask: id
-    })
-})
+      message: "Task update",
+      idTask: id,
+    });
 
-// creo la ruta para el DELETE
+  } catch (error) {
+    res.status(500).json({
+      error: "Internal error server",
+    });
+  }
+});
 
-router.delete("/:id", (req, res)=>{
-    const {id}= req.params
+//============= CREO RUTA DELETE ====================
 
-    tasks = tasks.filter(task =>
-        task.id != id
-    )
+router.delete("/:id", (req, res) => {
+  try {
+    const { id } = req.params;
+    const existTask = taskExist(id)
+
+    if(!existTask){
+        return res.status(404).json({
+            error: "Task not exist"
+        })
+    }
+    // filtro y modifico el array original sin el que elimine
+    tasks = tasks.filter((task) => task.id != id);
+
     res.json({
-        message: "Task deletee",
-    })
-})
+      message: "Task deletee",
+    });
+  } catch (error) {}
+});
+
+
+// ====== funcion para verificar si existe tarea =========
+const taskExist = (id)=>{
+    return tasks.some( task => task.id == id)
+}
 
 
 export default router;
