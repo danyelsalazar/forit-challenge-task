@@ -21,7 +21,7 @@ const App = () => {
   return (
     <div className="container-app-list">
       <div className="container-title-app">
-        <h2>Task List</h2>
+        <h2>Tasks List</h2>
       </div>
       <TaskList tasks={tasks} setTasks={setTasks} />
     </div>

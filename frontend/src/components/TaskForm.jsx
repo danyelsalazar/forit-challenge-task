@@ -59,7 +59,7 @@ const TaskForm = ({
           required
           maxLength={30}
         />
-        <input
+        <textarea className="textarea"
           type="text"
           placeholder="Descripcion..."
           value={dataTask.description}
@@ -74,7 +74,7 @@ const TaskForm = ({
         />
       </div>
       <div className="container-btn-form">
-        <button className="btn-add-yask" type="submit">
+        <button className="btn-form btn-form-add" type="submit">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="128"
@@ -82,12 +82,12 @@ const TaskForm = ({
             viewBox="0 0 24 24"
           >
             <path
-              fill="#cccccc"
+              fill="#00b5f7"
               d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2m5 11h-4v4h-2v-4H7v-2h4V7h2v4h4z"
             />
           </svg>
         </button>
-        <button type="reset" onClick={() => handleReset()}>
+        <button className="btn-form" type="reset" onClick={() => handleReset()}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="128"

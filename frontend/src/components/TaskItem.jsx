@@ -15,30 +15,38 @@ const TaskItem = ({
     return (
       <div className="container-item-task" key={task.id}>
         <div className="container-item-task-info">
-          <h3>{task.title}</h3>
+          <h3 className="title-task">
+            {task.complete ? (
+              <svg
+                className="state-task"
+                xmlns="http://www.w3.org/2000/svg"
+                width="128"
+                height="128"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="#dc2626"
+                  d="M12 18a6 6 0 1 1 0-12a6 6 0 0 1 0 12Z"
+                />
+              </svg>
+            ) : (
+              <svg
+                className="state-task"
+                xmlns="http://www.w3.org/2000/svg"
+                width="128"
+                height="128"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="#86d813"
+                  d="M12 18a6 6 0 1 1 0-12a6 6 0 0 1 0 12Z"
+                />
+              </svg>
+            )}
+            {task.title}
+          </h3>
           <p className="description-task">{task.description}</p>
-          <p>{`${day}-${month}-${year}`}</p>
-          {task.complete ? (
-            <svg
-              className="state-task"
-              xmlns="http://www.w3.org/2000/svg"
-              width="128"
-              height="128"
-              viewBox="0 0 24 24"
-            >
-              <path fill="#dc2626" d="M12 18a6 6 0 1 1 0-12a6 6 0 0 1 0 12Z" />
-            </svg>
-          ) : (
-            <svg
-              className="state-task"
-              xmlns="http://www.w3.org/2000/svg"
-              width="128"
-              height="128"
-              viewBox="0 0 24 24"
-            >
-              <path fill="#86d813" d="M12 18a6 6 0 1 1 0-12a6 6 0 0 1 0 12Z" />
-            </svg>
-          )}
+          <p className="date-task">{`${day}-${month}-${year}`}</p>
         </div>
 
         <div className="container-btns-task">
@@ -61,7 +69,9 @@ const TaskItem = ({
           {/* boton tarea no completada */}
           <button
             className="btn-update btn-task"
-            onClick={() => handleUpdateTask(task.id, { complete: !task.complete })}
+            onClick={() =>
+              handleUpdateTask(task.id, { complete: !task.complete })
+            }
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
