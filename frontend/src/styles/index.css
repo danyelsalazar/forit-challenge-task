@@ -1,9 +1,138 @@
-*{
+* {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  color: white;
 }
 
-body{
- 
+body {
+  font-family: Arial, sans-serif;
+  background: #1a1a1a;
+  color: white;
+}
+
+/* ======= estilos botones======= */
+button {
+  background-color: transparent;
+  border: none;
+  width: 35px;
+  height: 35px;
+}
+button svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ========= CONTENEDOR DE LA LISTA ============*/
+.container-app-list {
+  width: 100dvw;
+  height: 100dvh;
+}
+
+/* ========== form ============ */
+.form-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 50px;
+  place-items: center;
+  gap: 10px;
+  padding: 10px 20px 20px 20px;
+  position: sticky;
+  top: 0px;
+  background-color: rgb(26, 26, 26, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  margin-bottom: 15px;
+}
+
+/* ======= botones form======== */
+.container-btn-form {
+  width: 100%;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 5px;
+  place-items: center;
+}
+button:hover{
+  cursor: pointer;
+}
+.container-inputs-form{
+  width: 100%;
+}
+input {
+  width: 100%;
+  height: 40px;
+  background-color: transparent;
+  border: none;
+  padding: 10px 0px;
+  border-bottom: .5px solid #cecece75;
+}
+input:focus{
+  outline: none;
+}
+
+/* ======== statodo de la tarea icono======= */
+.state-task {
+  width: 20px;
+  height: 20px;
+}
+
+
+/* ===== BTN TASK ===== */
+.btn-task {
+  width: 25px;
+  height: max-content;
+}
+.btn-task:hover{
+  cursor: pointer;
+}
+.container-btns-task{
+  height: 100%;
+  display: grid;
+  grid-template-rows: repeat(3,  max-content);
+  place-items: center;
+  gap: 20px;
+}
+
+/* ======== container task form ===== */
+.container-task-form{
+  padding: 10px
+}
+/* ======= TASK ITEM */
+
+/* container tasks */
+.container-tasks{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.container-item-task{
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 50px;
+  padding: 20px;
+  border-radius: 20px;
+  border:  .4px solid #5e5e5e8d;
+}
+
+.container-item-task-info{
+  display: grid;
+  grid-template-rows: 1fr 100px 1fr;
+  gap: 10px;
+}
+
+.description-task{
+  /* background-color: aqua; */
+  overflow-x: hidden ;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-wrap: break-word; /* Rompe palabras largas para que no se salgan */
+  word-break: break-word;     /* Refuerzo para navegadores antiguos */
+  white-space: normal;   
+}
+
+/* ======== title app */
+.container-title-app{
+  padding: 30px 20px 10px 20px ;
 }
