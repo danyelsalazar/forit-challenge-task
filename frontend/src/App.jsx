@@ -24,7 +24,7 @@ const App = () => {
         <h2>Tasks List</h2>
         <div className="container-btn-filter">
           <button>Todo</button>
-          <button>Completadas</button>
+          <button>Completada</button>
           <button>Pendiente</button>
         </div>
       </div>
