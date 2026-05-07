@@ -1,149 +1,120 @@
 import { Router } from "express";
 
-// creo un router
-const router = Router();
+const taskRouter = (db) => {
+  // creo un router
+  const router = Router();
 
-// creo un arreglo mock de tareas
-let tasks = [
-  {
-    id: crypto.randomUUID(),
-    title: "Entrega Proyecto Final",
-    description: "Subir el repositorio de React a la plataforma de la facultad.",
-    complete: false,
-    createAt: new Date()
-  },
-  {
-    id: crypto.randomUUID(),
-    title: "Comprar víveres",
-    description: "Leche, huevos, frutas y café para la semana.",
-    complete: true,
-    createAt: new Date()
-  },
-  {
-    id: crypto.randomUUID(),
-    title: "Estudiar para Álgebra",
-    description: "Repasar matrices y sistemas de ecuaciones lineales.",
-    complete: false,
-    createAt: new Date()
-  },
-  {
-    id: crypto.randomUUID(),
-    title: "Gimnasio",
-    description: "Entrenamiento de pierna y 20 min de cardio.",
-    complete: false,
-    createAt: new Date()
-  },
-  {
-    id: crypto.randomUUID(),
-    title: "Resumen de Historia",
-    description: "Leer los capítulos 3 y 4 del libro de texto.",
-    complete: true,
-    createAt: new Date()
-  },
-  {
-    id: crypto.randomUUID(),
-    title: "Lavar la ropa",
-    description: "Separar la ropa blanca y poner la lavadora.",
-    complete: false,
-    createAt: new Date()
-  }
-];
-
-
-//=========== CREO RUTA GET =================
-router.get("/", (req, res) => {
-  // muestro las tareas
-  res.json(tasks);
-});
-
-//========== CREO RUTA POST ====================
-router.post("/", (req, res) => {
-  try {
-    const { title } = req.body;
-
-    if (!title) {
-      return res.status(400).json({
-        error: "title is required",
+  //=========== CREO RUTA GET =================
+  router.get("/", async (req, res) => {
+    try {
+      // traigo la data
+      const tasks = await db.all("SELECT * FROM tasks");
+      // la doy al usuario
+      res.json(tasks);
+    } catch (error) {
+      res.status(500).json({
+        error: "Error al traer los datos",
       });
     }
-    // creo una nueva tarea con la info recibida
-    const newTask = {
-      id: crypto.randomUUID(),
-      title: req.body.title,
-      description: req.body.description,
-      complete: false,
-      createAt: new Date()
-    };
-    // agrego la tarea a mi arreglo de tareas
-    tasks.push(newTask);
+  });
 
-    res.status(201).json(newTask);
-  } catch (error) {
-    // en caso de rrors de servidor lo atrapo con el catch
-    res.status(500).json({
-      error: "internal error server",
-    });
-  }
-});
+  //========== creo ruta POST ====================
+  router.post("/", async (req, res) => {
+    try {
+      const { title, description } = req.body;
 
-// ============ CREO RUTA PUT ================
-router.put("/:id", (req, res) => {
-  try {
-    const { id } = req.params;
+      if (!title || title.trim() === "") {
+        return res.status(400).json({
+          error: "title is required",
+        });
+      }
 
-    // verifico si existe la tarea
-    const existTask = taskExist(id)
+      // hago la consulta de sql a la base de datos creando la tarea
+      const result = await db.run(
+        `
+      INSERT INTO tasks (title, description, complete, createAt)
+      VALUES (?, ?, ,?, ?)`,
+        [title, description, 0, new Date().toDateString()],
+      );
 
-    // si no existe informo
-    if (!existTask) {
-      return res.status(404).json({
-        error: "Task not exist",
+      // creo una nueva tarea con la info recibida
+      const newTask = await db.get(
+        `
+      SELECT * FROM tasks WHERE id = ?`,
+        result.lastID,
+      );
+
+      res.status(201).json(newTask);
+    } catch (error) {
+      // en caso de rrors de servidor lo atrapo con el catch
+      res.status(500).json({
+        error: "internal error server",
       });
     }
+  });
 
-    // si existe continuo y la modifico
-    tasks = tasks.map((task) =>
-      task.id == id ? { ...task, ...req.body } : task,
-    );
+  // ============ creo la ruta PUT ================
+  router.put("/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { title, description, completed } = req.body;
 
-    res.json({
-      message: "Task update",
-      idTask: id,
-    });
+      //verifico si estan los datos correctos
+      if (title !== undefined && title.trim() === "") {
+        return res.status(400).json({ error: "Title cannot be empty" });
+      }
 
-  } catch (error) {
-    res.status(500).json({
-      error: "Internal error server",
-    });
-  }
-});
+      const existTask = await db.get("SELECT * FROM tasks WHERE id = ?", id);
 
-//============= CREO RUTA DELETE ====================
-
-router.delete("/:id", (req, res) => {
-  try {
-    const { id } = req.params;
-    const existTask = taskExist(id)
-
-    if(!existTask){
+      if (!existTask) {
         return res.status(404).json({
-            error: "Task not exist"
-        })
+          error: "Task not exist",
+        });
+      }
+
+      await db.run(
+        `UPDATE tasks
+         SET title = ?, description = ?, completed = ?
+         WHERE id = ?`,
+        [title, description, completed, id],
+      );
+
+      const updatedTask = await db.get("SELECT * FROM tasks WHERE id = ?", id);
+
+      res.json(updatedTask);
+    } catch (error) {
+      res.status(500).json({
+        error: "Internal server error",
+      });
     }
-    // filtro y modifico el array original sin el que elimine
-    tasks = tasks.filter((task) => task.id != id);
+  });
 
-    res.json({
-      message: "Task deletee",
-    });
-  } catch (error) {}
-});
+  //============= creo ruta  DELETE ====================
+  router.delete("/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
 
+      const existTask = await db.get("SELECT * FROM tasks WHERE id = ?", id);
 
-// ====== funcion para verificar si existe tarea =========
-const taskExist = (id)=>{
-    return tasks.some( task => task.id == id)
-}
+      if (!existTask) {
+        return res.status(404).json({
+          error: "Task not exist",
+        });
+      }
 
+      await db.run("DELETE FROM tasks WHERE id = ?", id);
 
-export default router;
+      res.json({
+        message: "Task deleted",
+      });
+    } catch (error) {
+      res.status(500).json({
+        error: "Internal server error",
+      });
+    }
+  });
+
+  return router;
+};
+
+export default taskRouter;

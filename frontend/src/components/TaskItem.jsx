@@ -1,14 +1,10 @@
-import { useState } from "react";
-
 const TaskItem = ({
   task,
   handleDeleteTask,
   handleUpdateTask,
-  preparingEdition
+  preparingEdition,
 }) => {
-
   const date = new Date(task.createAt);
-  const [taskComplete, setTaskComplete] = useState(task.complete)
   // descompongo la fecha asi la pudo usar por partes
   const { day, month, year } = {
     day: date.getDate(),
@@ -19,7 +15,9 @@ const TaskItem = ({
   return (
     <div className="container-item-task">
       <div className="container-item-task-info">
-        <h3 id="title-task" className={taskComplete ? "title-task-complete" : ""}>
+        <h3
+          className={`title-task ${task.complete ? "title-task-complete" : ""}`}
+        >
           {task.complete ? (
             <svg
               className="state-task"
@@ -54,26 +52,41 @@ const TaskItem = ({
           onClick={() => handleDeleteTask(task.id)}
           title="Eliminar tarea"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 24 24"><path fill="none" stroke="#cccccc" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M1 5h22m-8.75-4h-4.5a1.5 1.5 0 0 0-1.5 1.5V5h7.5V2.5a1.5 1.5 0 0 0-1.5-1.5m-4.5 16.75v-7.5m4.5 7.5v-7.5m4.61 11.37A1.49 1.49 0 0 1 17.37 23H6.63a1.49 1.49 0 0 1-1.49-1.38L3.75 5h16.5z"/></svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="128"
+            height="128"
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="none"
+              stroke="#cccccc"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.5"
+              d="M1 5h22m-8.75-4h-4.5a1.5 1.5 0 0 0-1.5 1.5V5h7.5V2.5a1.5 1.5 0 0 0-1.5-1.5m-4.5 16.75v-7.5m4.5 7.5v-7.5m4.61 11.37A1.49 1.49 0 0 1 17.37 23H6.63a1.49 1.49 0 0 1-1.49-1.38L3.75 5h16.5z"
+            />
+          </svg>
         </button>
         {/* btn para asignar tarea como completada o pendiente*/}
         <button
-          className={taskComplete ? "btn-estatus-task-complete" : "btn-estatus-task-incomplete"} id="btn-estatus-task"
-          onClick={() =>{
-            handleUpdateTask(task.id, { complete: !task.complete })
-            setTaskComplete(!taskComplete)
-          }
-          }
+          className={`btn-estatus-task ${
+            task.complete
+              ? "btn-estatus-task-complete"
+              : "btn-estatus-task-incomplete"
+          }`}
+          onClick={() => {
+            handleUpdateTask(task.id, { complete: !task.complete });
+          }}
           title={
             task.complete ? "Marcar como pendiente" : "Marcar como completado"
           }
-        >
-        </button>
+        ></button>
         {/* boton para editar la tarea */}
         <button
           className="btn-task"
           onClick={() => {
-            preparingEdition(task)
+            preparingEdition(task);
           }}
           title="Editar tarea"
         >

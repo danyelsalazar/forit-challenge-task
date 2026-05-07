@@ -13,7 +13,7 @@ const TaskList = ({ tasks = [], setTasks }) => {
   const [taskFilter, setTaskFilter] = useState("all");
 
   // un estado para la busqueda de tarea
-  const [searchTask, setSearcgTask] = useState("")
+  const [searchTask, setSearchTask] = useState("")
 
   // ====== editar tarea completada o no
   const handleUpdateTask = async (id, taskUpdate) => {
@@ -33,7 +33,7 @@ const TaskList = ({ tasks = [], setTasks }) => {
   // === eliminar tarea=======
   const handleDeleteTask = async (id) => {
     try {
-      if (!id) return new Error("No se envio el id");
+      if (!id) throw new Error("No se envio el id");
       await deleteTask(id);
       setTasks((prev) => prev.filter((task) => task.id !== id));
     } catch (error) {
@@ -69,7 +69,7 @@ const TaskList = ({ tasks = [], setTasks }) => {
     // muestro todas las tareas:
     
     // ahora filtro por texto por titulo
-    const searchMatch = task.title.toLowerCase().includes(searchTask)
+    const searchMatch = task.title.toLowerCase().includes(searchTask.toLocaleLowerCase())
     // mostramos la tarea cuando se cumplen las dos condiciones
     return searchMatch && matchesStatus
   });
@@ -82,7 +82,7 @@ const TaskList = ({ tasks = [], setTasks }) => {
           className="input-search-task"
           type="search"
           placeholder="Buscar tarea"
-          onChange={(e)=> setSearcgTask(e.target.value)}
+          onChange={(e)=> setSearchTask(e.target.value)}
         />
         <div className="container-btn-filter">
           <button

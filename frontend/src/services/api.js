@@ -1,9 +1,9 @@
-const API_URL = "http://localhost:4000/api/tasks";
+const API_URL = import.meta.env.VITE_API_URL;
 
 // ======= TRAIGO LAS TAREAS CON GET =====
 export const getTask = async () => {
   try {
-    const res = await fetch(API_URL);
+    const res = await fetch(`${API_URL}/tasks`);
     // verificamos si las respuesta es positiva o no
     if(!res.ok) throw new Error("Error al obtener las tareas");
 
