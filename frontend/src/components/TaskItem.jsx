@@ -4,7 +4,7 @@ const TaskItem = ({
   handleUpdateTask,
   preparingEdition,
 }) => {
-  const date = new Date(task.createAt);
+  const date = new Date(task.createdAt);
   // descompongo la fecha asi la pudo usar por partes
   const { day, month, year } = {
     day: date.getDate(),
@@ -16,9 +16,9 @@ const TaskItem = ({
     <div className="container-item-task">
       <div className="container-item-task-info">
         <h3
-          className={`title-task ${task.complete ? "title-task-complete" : ""}`}
+          className={`title-task ${task.completed ? "title-task-completed" : ""}`}
         >
-          {task.complete ? (
+          {task.completed ? (
             <svg
               className="state-task"
               xmlns="http://www.w3.org/2000/svg"
@@ -71,15 +71,15 @@ const TaskItem = ({
         {/* btn para asignar tarea como completada o pendiente*/}
         <button
           className={`btn-estatus-task ${
-            task.complete
+            task.completed
               ? "btn-estatus-task-complete"
               : "btn-estatus-task-incomplete"
           }`}
           onClick={() => {
-            handleUpdateTask(task.id, { complete: !task.complete });
+            handleUpdateTask(task.id, { completed: !task.completed });
           }}
           title={
-            task.complete ? "Marcar como pendiente" : "Marcar como completado"
+            task.completed ? "Marcar como pendiente" : "Marcar como completado"
           }
         ></button>
         {/* boton para editar la tarea */}

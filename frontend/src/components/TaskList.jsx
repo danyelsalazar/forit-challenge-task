@@ -13,7 +13,7 @@ const TaskList = ({ tasks = [], setTasks }) => {
   const [taskFilter, setTaskFilter] = useState("all");
 
   // un estado para la busqueda de tarea
-  const [searchTask, setSearchTask] = useState("")
+  const [searchTask, setSearchTask] = useState("");
 
   // ====== editar tarea completada o no
   const handleUpdateTask = async (id, taskUpdate) => {
@@ -63,15 +63,16 @@ const TaskList = ({ tasks = [], setTasks }) => {
   // filtrar las tareas
   const filterTask = tasks.filter((task) => {
     // aqui las filtro por estado de la tarea
-    let matchesStatus = true
-    if (taskFilter === "complete") matchesStatus = task.complete === true;
-    if (taskFilter === "pending") matchesStatus = task.complete === false;
+    let matchesStatus = true;
+    if (taskFilter === "completed") matchesStatus = task.completed === true;
+    if (taskFilter === "pending") matchesStatus = task.completed === false;
     // muestro todas las tareas:
-    
+
     // ahora filtro por texto por titulo
-    const searchMatch = task.title.toLowerCase().includes(searchTask.toLocaleLowerCase())
-    // mostramos la tarea cuando se cumplen las dos condiciones
-    return searchMatch && matchesStatus
+    const searchMatch = task.title
+      ?.toLowerCase()
+      .includes(searchTask.toLowerCase()); // mostramos la tarea cuando se cumplen las dos condiciones
+    return searchMatch && matchesStatus;
   });
 
   return (
@@ -82,7 +83,7 @@ const TaskList = ({ tasks = [], setTasks }) => {
           className="input-search-task"
           type="search"
           placeholder="Buscar tarea"
-          onChange={(e)=> setSearchTask(e.target.value)}
+          onChange={(e) => setSearchTask(e.target.value)}
         />
         <div className="container-btn-filter">
           <button
@@ -96,7 +97,7 @@ const TaskList = ({ tasks = [], setTasks }) => {
           <button
             className="btn-filter btn-copleted-tasks"
             onClick={() => {
-              setTaskFilter("complete");
+              setTaskFilter("completed");
             }}
           >
             Completada
