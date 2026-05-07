@@ -1,15 +1,19 @@
 import { deleteTask, updateTask } from "../services/api";
 import TaskForm from "./TaskForm";
 import { postTask } from "../services/api.js";
-import { useState} from "react";
+import { useState } from "react";
 import TaskItem from "./TaskItem.jsx";
 
 const TaskList = ({ tasks = [], setTasks }) => {
   const [editingTask, setEditingTask] = useState(null);
-   // creoo un estado para saber si el form esta abierto o no
+  // creoo un estado para saber si el form esta abierto o no
   const [formActive, setFormActive] = useState(false);
 
-  const [taskFiter, setTaskFilter] = useState("all")
+  // hook para el filtrado
+  const [taskFilter, setTaskFilter] = useState("all");
+
+  // un estado para la busqueda de tarea
+  const [searchTask, setSearcgTask] = useState("")
 
   // ====== editar tarea completada o no
   const handleUpdateTask = async (id, taskUpdate) => {
@@ -46,65 +50,102 @@ const TaskList = ({ tasks = [], setTasks }) => {
   };
 
   // ========== Abrir formulario ============
-  const handleOpenFormTask = ()=>{
-    setFormActive(!formActive)
-  }
+  const handleOpenFormTask = () => {
+    setFormActive(!formActive);
+  };
 
   // ==== junto la preparacion de la edicion de una tarea =====
-  const preparingEdition = (task) =>{
-    setEditingTask(task)
-    handleOpenFormTask()
-  }
+  const preparingEdition = (task) => {
+    setEditingTask(task);
+    handleOpenFormTask();
+  };
 
   // filtrar las tareas
-  const filterTask = tasks.filter((task)=>{
-    if (taskFiter === "complete") return task.complete === true 
-    if(taskFiter === "pending") return task.complete === false
+  const filterTask = tasks.filter((task) => {
+    // aqui las filtro por estado de la tarea
+    let matchesStatus = true
+    if (taskFilter === "complete") matchesStatus = task.complete === true;
+    if (taskFilter === "pending") matchesStatus = task.complete === false;
     // muestro todas las tareas:
-    return true
-  })
+    
+    // ahora filtro por texto por titulo
+    const searchMatch = task.title.toLowerCase().includes(searchTask)
+    // mostramos la tarea cuando se cumplen las dos condiciones
+    return searchMatch && matchesStatus
+  });
 
   return (
     <>
-    <div className="container-title-app">
+      <div className="container-title-app">
         <h2>Tasks List</h2>
+        <input
+          className="input-search-task"
+          type="search"
+          placeholder="Buscar tarea"
+          onChange={(e)=> setSearcgTask(e.target.value)}
+        />
         <div className="container-btn-filter">
-          <button className="btn-filter btn-all-tasks" onClick={()=>{setTaskFilter('all')}}>Todo</button>
-          <button className="btn-filter btn-copleted-tasks" onClick={()=>{setTaskFilter('complete')}}>Completada</button>
-          <button className="btn-filter btn-pending-tasks" onClick={()=>{setTaskFilter('pending')}}>Pendiente</button>
+          <button
+            className="btn-filter btn-all-tasks"
+            onClick={() => {
+              setTaskFilter("all");
+            }}
+          >
+            Todo
+          </button>
+          <button
+            className="btn-filter btn-copleted-tasks"
+            onClick={() => {
+              setTaskFilter("complete");
+            }}
+          >
+            Completada
+          </button>
+          <button
+            className="btn-filter btn-pending-tasks"
+            onClick={() => {
+              setTaskFilter("pending");
+            }}
+          >
+            Pendiente
+          </button>
         </div>
       </div>
-    <div className="container-tasks-from-and-tasks">
-      <TaskForm
-        onAddTask={handleAddTask}
-        editingTask={editingTask}
-        handleUpdateTask={handleUpdateTask}
-        setEditingTask={setEditingTask}
-        formActive={formActive}
-        handleOpenFormTask ={handleOpenFormTask}
-        key={editingTask?.id || "new"}
-      />
+      <div className="container-tasks-from-and-tasks">
+        <TaskForm
+          onAddTask={handleAddTask}
+          editingTask={editingTask}
+          handleUpdateTask={handleUpdateTask}
+          setEditingTask={setEditingTask}
+          formActive={formActive}
+          handleOpenFormTask={handleOpenFormTask}
+          key={editingTask?.id || "new"}
+        />
 
-      <div className="container-tasks">
-        {tasks.length > 0 ? (
-          filterTask.map((task) => {
-            return (
-              <TaskItem
-                key={task.id}
-                task={task}
-                handleDeleteTask={handleDeleteTask}
-                handleUpdateTask={handleUpdateTask}
-                preparingEdition={preparingEdition}
-              />
-            );
-          })
-        ) : (
-          <p className="not-found-task">No hay tareas para mostrar.</p>
-        )}
-      </div>
-      {/* boton flotante para crear una nueva tarea */}
-      <button className="add-task-btn-float" onClick={()=> handleOpenFormTask()} title="Nueva tarea">
-        <svg
+        <div className="container-tasks">
+          {tasks.length > 0 ? (
+            filterTask.map((task) => {
+              return (
+                <TaskItem
+                  key={task.id}
+                  task={task}
+                  handleDeleteTask={handleDeleteTask}
+                  handleUpdateTask={handleUpdateTask}
+                  preparingEdition={preparingEdition}
+                />
+              );
+            })
+          ) : (
+            <p className="not-found-task">No hay tareas para mostrar.</p>
+          )}
+        </div>
+        {/* boton flotante para crear una nueva tarea */}
+        <button
+          className="add-task-btn-float"
+          onClick={() => handleOpenFormTask()}
+          title="Nueva tarea"
+        >
+          <svg
             xmlns="http://www.w3.org/2000/svg"
             width="128"
             height="128"
@@ -121,8 +162,8 @@ const TaskList = ({ tasks = [], setTasks }) => {
               <path d="M20.385 6.585a2.1 2.1 0 0 0-2.97-2.97L9 12v3h3zM16 5l3 3" />
             </g>
           </svg>
-      </button>
-    </div>
+        </button>
+      </div>
     </>
   );
 };
