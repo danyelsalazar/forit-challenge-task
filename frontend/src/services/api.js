@@ -18,7 +18,7 @@ export const getTask = async () => {
 // ====== AGREGO UNA TAREA CON EL POST =========
 export const postTask = async (task) => {
   try {
-    const res = await fetch(API_URL, {
+    const res = await fetch(`${API_URL}/tasks`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -36,7 +36,7 @@ export const postTask = async (task) => {
 
 export const deleteTask = async (id) => {
     try {
-        await fetch(`${API_URL}/${id}`, {
+        await fetch(`${API_URL}/tasks/${id}`, {
             method: "DELETE",
         });
 
@@ -49,7 +49,7 @@ export const deleteTask = async (id) => {
 // ========== EDITAR TAREA UPDATE ==============
 export const  updateTask = async (id, taskUpdate) =>{
     try {
-        const res = await fetch(`${API_URL}/${id}`, {
+        const res = await fetch(`${API_URL}/tasks/${id}`, {
             method: "PUT",
             headers: {
             "Content-Type": "application/json"

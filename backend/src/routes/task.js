@@ -32,8 +32,8 @@ const taskRouter = (db) => {
       // hago la consulta de sql a la base de datos creando la tarea
       const result = await db.run(
         `
-      INSERT INTO tasks (title, description, complete, createAt)
-      VALUES (?, ?, ,?, ?)`,
+      INSERT INTO tasks (title, description, completed, createdAt)
+      VALUES (?, ?,?, ?)`,
         [title, description, 0, new Date().toDateString()],
       );
 
