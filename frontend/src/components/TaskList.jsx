@@ -1,11 +1,13 @@
 import { deleteTask, updateTask } from "../services/api";
 import TaskForm from "./TaskForm";
 import { postTask } from "../services/api.js";
-import { useState } from "react";
+import { useState} from "react";
 import TaskItem from "./TaskItem.jsx";
 
 const TaskList = ({ tasks = [], setTasks }) => {
   const [editingTask, setEditingTask] = useState(null);
+   // creoo un estado para saber si el form esta abierto o no
+  const [formActive, setFormActive] = useState(false);
 
   // ====== editar tarea completada o no
   const handleUpdateTask = async (id, taskUpdate) => {
@@ -41,29 +43,66 @@ const TaskList = ({ tasks = [], setTasks }) => {
     setTasks((prev) => [...prev, newTask]);
   };
 
+  // ========== Abrir formulario ============
+  const handleOpenFormTask = ()=>{
+    setFormActive(!formActive)
+  }
+
+  // ==== junto la preparacion de la edicion de una tarea =====
+  const preparingEdition = (task) =>{
+    setEditingTask(task)
+    handleOpenFormTask()
+  }
+
   return (
-    <div className="container-task-form">
+    <div className="container-tasks-from-and-tasks">
       <TaskForm
         onAddTask={handleAddTask}
         editingTask={editingTask}
-        setEditingTask={setEditingTask}
         handleUpdateTask={handleUpdateTask}
         setEditingTask={setEditingTask}
+        formActive={formActive}
+        handleOpenFormTask ={handleOpenFormTask}
         key={editingTask?.id || "new"}
       />
 
       <div className="container-tasks">
         {tasks.length > 0 ? (
-          <TaskItem
-            tasks={tasks}
-            handleDeleteTask={handleDeleteTask}
-            handleUpdateTask={handleUpdateTask}
-            setEditingTask={setEditingTask}
-          />
+          tasks.map((task) => {
+            return (
+              <TaskItem
+                key={task.id}
+                task={task}
+                handleDeleteTask={handleDeleteTask}
+                handleUpdateTask={handleUpdateTask}
+                preparingEdition={preparingEdition}
+              />
+            );
+          })
         ) : (
-          <p>No hay tareas para mostrar.</p>
+          <p className="not-found-task">No hay tareas para mostrar.</p>
         )}
       </div>
+      {/* boton flotante para crear una nueva tarea */}
+      <button className="add-task-btn-float" onClick={()=> handleOpenFormTask()} title="Nueva tarea">
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="128"
+            height="128"
+            viewBox="0 0 24 24"
+          >
+            <g
+              fill="none"
+              stroke="#e3e3e3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+            >
+              <path d="M7 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-1" />
+              <path d="M20.385 6.585a2.1 2.1 0 0 0-2.97-2.97L9 12v3h3zM16 5l3 3" />
+            </g>
+          </svg>
+      </button>
     </div>
   );
 };

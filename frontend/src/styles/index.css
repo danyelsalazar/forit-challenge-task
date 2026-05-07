@@ -17,10 +17,15 @@ button {
   border: none;
   width: 35px;
   height: 35px;
+  transition: opacity ease .2s;
 }
 button svg {
   width: 100%;
   height: 100%;
+}
+
+button:hover{
+  opacity: .8;
 }
 
 /* ========= CONTENEDOR DE LA LISTA ============*/
@@ -31,36 +36,62 @@ button svg {
 
 /* ========== form ============ */
 .form-container {
-  width: 100%;
+  width: 80%;
   display: grid;
-  grid-template-columns: 1fr 50px;
+  grid-template-columns: 1fr;
   place-items: center;
   gap: 10px;
   padding: 20px;
-  position: sticky;
-  top: 0px;
-  background-color: rgba(26, 26, 26, 0.683);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background-color: rgb(39, 38, 38);
   margin-bottom: 15px;
   z-index: 100;
+  border-radius: 10px;
+  border: solid 0.5px #cecece34;
+
+}
+/* armo un foco en el form */
+.container-form-fondo{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0px;
+  width: 100dvw;
+  height: 100dvh;
+  background-color: #101010bd;
+  z-index: 999;
+}
+
+.container-tasks-from-and-tasks{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 100px;
+  z-index: 10000;
 }
 
 /* ======= botones form======== */
 .container-btn-form {
   width: 100%;
   height: max-content;
-  display: grid;
-  grid-template-rows: 1fr 1fr;
+  display: flex;
+  gap: 10px;
+  flex-direction: row-reverse;
   border-radius: 10px;
   place-items: center;
   overflow: hidden;
-  border: solid 0.5px #cecece75;
 }
 .btn-form {
   width: 100%;
   padding: 5px;
-  border: solid 0.5px #cecece34;
+  border-radius: 10px;
+}
+.btn-form-add{
+  background-color: rgb(114, 170, 36);
+}
+.btn-rest-form{
+  background-color: rgb(122, 53, 53);
 }
 button:hover {
   cursor: pointer;
@@ -77,7 +108,7 @@ input {
   height: 50px;
   background-color: transparent;
   border: none;
-  font-size: 15px;
+  font-size: 20px;
   padding: 10px;
   border-left: 0.5px solid #cecece75;
 }
@@ -86,12 +117,14 @@ input {
 }
 .textarea {
   width: 100%;
+  height: 100px;
   background-color: transparent;
   border: none;
   padding: 10px;
   resize: none;
   overflow-wrap: break-word;
   word-break: break-word;
+  color: #979696;
   border-left: 0.5px solid #cecece75;
 }
 .textarea:focus {
@@ -100,8 +133,27 @@ input {
 input:focus {
   outline: none;
 }
-
-/* ======== statodo de la tarea icono======= */
+.title-task-form{
+  font-size: 20px;
+}
+/* container title task */
+.container-title-task-btn-close-form{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+/* btn close form */
+.close-form{
+  width: max-content;
+  height: 20px;
+  display: block;
+  align-self: flex-end;
+}
+.close-form svg{
+  width: max-content;
+  height: 100%;
+}
+/* ======== stado de la tarea icono ======= */
 .state-task {
   width: 20px;
   height: 20px;
@@ -128,6 +180,8 @@ input:focus {
 
 /* container tasks */
 .container-tasks {
+  width: 100%;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -149,10 +203,6 @@ input:focus {
   display: grid;
   grid-template-rows: 1fr 70px 1fr;
   gap: 10px;
-}
-.container-tasks {
-  width: 100%;
-  padding: 10px;
 }
 
 .description-task {
@@ -176,13 +226,53 @@ input:focus {
 /* ====== estilos para texto */
 .title-task {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   flex-direction: row;
   gap: 5px;
   font-size: 21px;
   font-weight: 500;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+.state-task{
+  width: 20px;
+  height: 20px;
+  align-self: flex-start;
 }
 /* ====date TASK */
 .date-task{
   color: #cecece;
 }
+/*======= BTN FLOTANTE ADD TASK */
+.add-task-btn-float{
+  position: fixed;
+  bottom: 25px;
+  right: 15px;
+  width:55px;
+  height: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #3e3e3e;
+  border-radius: 50%;
+  padding: 10px;
+  animation: pulsacion 2s infinite;
+}
+.add-task-btn-float svg{
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes pulsacion {
+  0%{
+    transform: scale(1);
+  }
+  50%{
+    transform: scale(1.1);
+  }
+  100%{
+    transform: scale(1);
+  }
+}
+/* ===== botones filtrado */
