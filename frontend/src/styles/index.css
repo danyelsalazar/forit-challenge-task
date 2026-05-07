@@ -42,7 +42,7 @@ button:hover{
   place-items: center;
   gap: 10px;
   padding: 20px;
-  background-color: rgb(39, 38, 38);
+  background-color: #1a1a1a;
   margin-bottom: 15px;
   z-index: 100;
   border-radius: 10px;
@@ -88,10 +88,10 @@ button:hover{
   border-radius: 10px;
 }
 .btn-form-add{
-  background-color: rgb(114, 170, 36);
+  background-color: #86d813d5;
 }
 .btn-rest-form{
-  background-color: rgb(122, 53, 53);
+  background-color: #dc2626de;
 }
 button:hover {
   cursor: pointer;
@@ -175,6 +175,18 @@ input:focus {
   gap: 20px;
 }
 
+/* icono para eliminar tarea */
+.btn-delete{
+  opacity: .5;
+  border-radius: 50%;
+  transition: opacity .2s ease;
+}
+.btn-delete:hover{
+  opacity: 1;
+}
+
+
+
 /* ======== container task form ===== */
 /* ======= TASK ITEM */
 
@@ -204,7 +216,18 @@ input:focus {
   grid-template-rows: 1fr 70px 1fr;
   gap: 10px;
 }
-
+#btn-estatus-task{
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+.btn-estatus-task-complete{
+  background-color: #86d813;
+}
+.btn-estatus-task-incomplete{
+  border: 1px solid #979696;
+}
 .description-task {
   /* background-color: aqua; */
   overflow-x: hidden;
@@ -222,9 +245,12 @@ input:focus {
 .container-title-app {
   padding: 30px 20px 10px 20px;
 }
+.container-title-app h2{
+  text-align: center;
+}
 
 /* ====== estilos para texto */
-.title-task {
+#title-task {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -235,6 +261,10 @@ input:focus {
   overflow-wrap: break-word;
   word-break: break-word;
 }
+.title-task-complete{
+  text-decoration: line-through;
+  opacity: .4;
+}
 .state-task{
   width: 20px;
   height: 20px;
@@ -242,7 +272,8 @@ input:focus {
 }
 /* ====date TASK */
 .date-task{
-  color: #cecece;
+  color: #cececee0;
+  font-size: 13.5px;
 }
 /*======= BTN FLOTANTE ADD TASK */
 .add-task-btn-float{
@@ -289,4 +320,14 @@ input:focus {
   border-radius: 10px;
   border: .5px solid #97969696;
   padding: 5px 10px;
+}
+.btn-filter{
+  /* Corrección de la sintaxis */
+  transition: border 0.1s ease, background-color .1s ease;
+}
+.btn-filter:hover{
+  opacity: 1;
+}
+.btn-filter:focus{
+  background-color: #9796969d;
 }

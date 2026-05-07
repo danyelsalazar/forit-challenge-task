@@ -1,10 +1,14 @@
+import { useState } from "react";
+
 const TaskItem = ({
   task,
   handleDeleteTask,
   handleUpdateTask,
   preparingEdition
 }) => {
+
   const date = new Date(task.createAt);
+  const [taskComplete, setTaskComplete] = useState(task.complete)
   // descompongo la fecha asi la pudo usar por partes
   const { day, month, year } = {
     day: date.getDate(),
@@ -15,7 +19,7 @@ const TaskItem = ({
   return (
     <div className="container-item-task">
       <div className="container-item-task-info">
-        <h3 className="title-task">
+        <h3 id="title-task" className={taskComplete ? "title-task-complete" : ""}>
           {task.complete ? (
             <svg
               className="state-task"
@@ -50,41 +54,20 @@ const TaskItem = ({
           onClick={() => handleDeleteTask(task.id)}
           title="Eliminar tarea"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="128"
-            height="128"
-            viewBox="0 0 12 12"
-          >
-            <path
-              fill="#dc2626"
-              d="M6 0a6 6 0 1 1 0 12A6 6 0 0 1 6 0m3 5H3v2h6Z"
-            />
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 24 24"><path fill="none" stroke="#cccccc" strokeLinecap="round" strokeLinejoin="round" strokWidth="1.5" d="M1 5h22m-8.75-4h-4.5a1.5 1.5 0 0 0-1.5 1.5V5h7.5V2.5a1.5 1.5 0 0 0-1.5-1.5m-4.5 16.75v-7.5m4.5 7.5v-7.5m4.61 11.37A1.49 1.49 0 0 1 17.37 23H6.63a1.49 1.49 0 0 1-1.49-1.38L3.75 5h16.5z"/></svg>
         </button>
         {/* btn para asignar tarea como completada o pendiente*/}
         <button
-          className="btn-update btn-task"
-          onClick={() =>
+          className={taskComplete ? "btn-estatus-task-complete" : "btn-estatus-task-incomplete"} id="btn-estatus-task"
+          onClick={() =>{
             handleUpdateTask(task.id, { complete: !task.complete })
+            setTaskComplete(!taskComplete)
+          }
           }
           title={
             task.complete ? "Marcar como pendiente" : "Marcar como completado"
           }
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="128"
-            height="128"
-            viewBox="0 0 12 12"
-          >
-            <path
-              fill="#cccccc"
-              fillRule="evenodd"
-              d="M12 6A6 6 0 1 1 0 6a6 6 0 0 1 12 0M5 3a1 1 0 0 1 2 0v3a1 1 0 0 1-2 0zm1 5a1 1 0 1 0 0 2a1 1 0 0 0 0-2"
-              clipRule="evenodd"
-            />
-          </svg>{" "}
         </button>
         {/* boton para editar la tarea */}
         <button

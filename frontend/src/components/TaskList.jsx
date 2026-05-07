@@ -9,6 +9,8 @@ const TaskList = ({ tasks = [], setTasks }) => {
    // creoo un estado para saber si el form esta abierto o no
   const [formActive, setFormActive] = useState(false);
 
+  const [taskFiter, setTaskFilter] = useState("all")
+
   // ====== editar tarea completada o no
   const handleUpdateTask = async (id, taskUpdate) => {
     try {
@@ -54,7 +56,24 @@ const TaskList = ({ tasks = [], setTasks }) => {
     handleOpenFormTask()
   }
 
+  // filtrar las tareas
+  const filterTask = tasks.filter((task)=>{
+    if (taskFiter === "complete") return task.complete === true 
+    if(taskFiter === "pending") return task.complete === false
+    // muestro todas las tareas:
+    return true
+  })
+
   return (
+    <>
+    <div className="container-title-app">
+        <h2>Tasks List</h2>
+        <div className="container-btn-filter">
+          <button className="btn-filter btn-all-tasks" onClick={()=>{setTaskFilter('all')}}>Todo</button>
+          <button className="btn-filter btn-copleted-tasks" onClick={()=>{setTaskFilter('complete')}}>Completada</button>
+          <button className="btn-filter btn-pending-tasks" onClick={()=>{setTaskFilter('pending')}}>Pendiente</button>
+        </div>
+      </div>
     <div className="container-tasks-from-and-tasks">
       <TaskForm
         onAddTask={handleAddTask}
@@ -68,7 +87,7 @@ const TaskList = ({ tasks = [], setTasks }) => {
 
       <div className="container-tasks">
         {tasks.length > 0 ? (
-          tasks.map((task) => {
+          filterTask.map((task) => {
             return (
               <TaskItem
                 key={task.id}
@@ -104,6 +123,7 @@ const TaskList = ({ tasks = [], setTasks }) => {
           </svg>
       </button>
     </div>
+    </>
   );
 };
 
