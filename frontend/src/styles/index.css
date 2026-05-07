@@ -349,3 +349,9 @@ input:focus {
   padding: 20px;
   text-align: center;
 }
+
+/* tachar tarea */
+.title-task-completed{
+  text-decoration: line-through;
+  opacity: .4;
+}

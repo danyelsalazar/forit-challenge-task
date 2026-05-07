@@ -64,8 +64,8 @@ const TaskList = ({ tasks = [], setTasks }) => {
   const filterTask = tasks.filter((task) => {
     // aqui las filtro por estado de la tarea
     let matchesStatus = true;
-    if (taskFilter === "completed") matchesStatus = task.completed === true;
-    if (taskFilter === "pending") matchesStatus = task.completed === false;
+    if (taskFilter === "completed") matchesStatus = task.completed == true;
+    if (taskFilter === "pending") matchesStatus = task.completed == false;
     // muestro todas las tareas:
 
     // ahora filtro por texto por titulo
