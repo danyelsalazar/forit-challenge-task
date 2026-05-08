@@ -2,6 +2,7 @@
 
 Aplicación full stack para la gestión de tareas. Permite crear, editar, eliminar y filtrar tareas con persistencia de datos.
 
+**Link del proyecto:** [Ver Demo en Vivo](https://forit-challenge-task-7jyoebz0k-danyelsalazars-projects.vercel.app/)
 ---
 
 ## Tecnologías
