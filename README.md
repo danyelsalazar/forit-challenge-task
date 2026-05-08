@@ -2,6 +2,20 @@
 
 Aplicación full stack para la gestión de tareas. Permite crear, editar, eliminar y filtrar tareas con persistencia de datos.
 
+## 📱 Capturas de Pantalla
+
+
+
+| Inicio | Cargar tarea | Carga de tarea | Tarea cargada | Marcar estado tarea|
+| :---: | :---: | :---: | :---: | :---: |
+| <img src="/frontend/src/assets/one.png" width="200"> | <img src="/frontend/src/assets/two.png" width="200"> | <img src="/frontend/src/assets/three.png" width="200"> | <img src="/frontend/src/assets/four.png" width="200"> | <img src="/frontend/src/assets/five.png" width="200"> |
+
+| Tarea lista | Completadas | Pendientes | Todas | Busqueda  |
+| :---: | :---: | :---: | :---: | :---: |
+| <img src="/frontend/src/assets/six.png" width="200"> | <img src="/frontend/src/assets/seven.png" width="200"> | <img src="/frontend/src/assets/eight.png" width="200"> | <img src="/frontend/src/assets/nine.png" width="200"> | <img src="/frontend/src/assets/ten.png" width="200"> |
+
+
+
 **Link del proyecto:** [Ver Demo en Vivo](https://forit-challenge-task-7jyoebz0k-danyelsalazars-projects.vercel.app/)
 ---
 
